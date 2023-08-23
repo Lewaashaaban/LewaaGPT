@@ -1,0 +1,61 @@
+name: my
+description: A new Flutter project.
+
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.0.6 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  http:
+  provider: ^6.0.5
+  cupertino_icons: ^1.0.2
+  google_fonts: ^5.1.0
+  flutter_native_splash: ^2.3.1
+  flutter_otp_text_field: ^1.1.1
+  get: ^4.6.5
+  line_awesome_flutter: ^2.0.0
+  velocity_x: ^4.1.1
+  chat_gpt_sdk: ^2.2.4
+  flutter_dotenv: ^5.1.0
+
+  # FIREBASE PACKAGES
+  firebase_core: ^2.15.0
+  firebase_auth: ^4.7.2
+  cloud_firestore: ^4.8.5
+  envied: ^0.3.0+3
+  dialog_flowtter:
+
+dev_dependencies:
+  flutter_lints: ^2.0.2
+  flutter_test:
+    sdk: flutter
+
+flutter_native_splash:
+  color: "#f7f6f1"
+  color_dark: "#272727"
+  image: assets/images/snapchat.png
+  image_dark: assets/images/snapchat.png
+
+  android_12:
+    image: assets/images/snapchat.png
+    icon_background_color: "#f7f6f1"
+    image_dark: assets/images/snapchat.png
+    icon_background_color_dark: "#272727"
+
+  web: false
+
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/welcomePage/
+    - assets/images/homePage/
+    - assets/images/forgotPassword/
+    - assets/images/accountPage/
+    - assets/dialog_flow_auth.json

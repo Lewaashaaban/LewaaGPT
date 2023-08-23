@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "710494466661",
+    "project_id": "chatgpt-5de52",
+    "storage_bucket": "chatgpt-5de52.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:710494466661:android:9dba78357edf57fd1b8c8c",
+        "android_client_info": {
+          "package_name": "com.example.my"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "710494466661-godg1mf6tm72tddj9dtdhu5n2ri47jda.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.my",
+            "certificate_hash": "0c1d748a581122fad6c9ac986dd67bb85126098e"
+          }
+        },
+        {
+          "client_id": "710494466661-82avlss0fhjpu9shmkrrlmqi0kbqs5tm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQy-i7XAhIeYqcGENly6X6Btr8C-2GzFE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "710494466661-82avlss0fhjpu9shmkrrlmqi0kbqs5tm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "710494466661-b3bsf92r2rp5dh5aef9v3tk3l5sgbu8t.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.my"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
