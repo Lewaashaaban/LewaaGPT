@@ -7,6 +7,7 @@ import 'package:my/src/Pages/LoginPage.dart';
 import 'package:my/src/Pages/SignupPage.dart';
 import 'package:my/src/Pages/chat/chatScreen.dart';
 import 'package:my/src/Pages/profile/profile_screen.dart';
+import 'package:my/src/Pages/profile/userInfo.dart';
 import 'package:my/src/repository/auth_repsitory/auth_repository.dart';
 import 'package:my/src/theme/theme.dart';
 import 'src/Pages/forgot_password/fp_mail.dart';
@@ -45,6 +46,7 @@ class MyApp extends StatelessWidget {
         '/signup': (context) => SignupPage(),
         // '/settings': (context) => SettingsPage(),
         '/profile': (context) => ProfileScreen(),
+        '/profile/info': (context) => UserInfo(),
       },
     );
     //     },
