@@ -1,15 +1,65 @@
+// ignore_for_file: prefer_const_constructors
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:my/src/common_widgets/form/form_header_widget.dart';
-import 'package:my/src/constants/colors.dart';
 import 'package:my/src/constants/imageStrings.dart';
 import 'package:my/src/constants/sizes.dart';
 
-class ForgetPasswordMailScreen extends StatelessWidget {
+class ForgetPasswordMailScreen extends StatefulWidget {
   const ForgetPasswordMailScreen({super.key});
+
+  @override
+  State<ForgetPasswordMailScreen> createState() =>
+      _ForgetPasswordMailScreenState();
+}
+
+class _ForgetPasswordMailScreenState extends State<ForgetPasswordMailScreen> {
+  final _emailController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    super.dispose();
+  }
+
+  Future passwordReset() async {
+    try {
+      await FirebaseAuth.instance
+          .sendPasswordResetEmail(email: _emailController.text.trim());
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              content:
+                  Text('Password resst link sent, please check your email'),
+            );
+          });
+    } on FirebaseAuthException catch (e) {
+      print(e);
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              content: Text(e.message.toString()),
+            );
+          });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+            onPressed: () {
+              Get.back();
+            },
+            icon: Icon(LineAwesomeIcons.angle_left)),
+        // title: Text('Reset passsword'),
+        centerTitle: true,
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
@@ -21,9 +71,9 @@ class ForgetPasswordMailScreen extends StatelessWidget {
                 ),
                 FormHeaderWidget(
                   image: tForgotPasswordImage,
-                  title: ('Forgot Password'),
+                  // title: ('Forgot Password'),
                   subtitle:
-                      'Select one of the options below to ressst your password',
+                      'Enter your Email to send a \n password reset link ',
                   crossAxisAlignment: CrossAxisAlignment.center,
                   heightBetween: 30.0,
                   textAlign: TextAlign.center,
@@ -35,15 +85,17 @@ class ForgetPasswordMailScreen extends StatelessWidget {
                     child: Column(
                   children: [
                     TextFormField(
+                      controller: _emailController,
                       decoration: InputDecoration(
                           labelText: 'E-mail',
                           hintText: 'E-mail',
-                          labelStyle: TextStyle(color: Colors.black),
                           focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                  width: 2.0, color: tSecondaryColor)),
-                          prefixIcon: Icon(Icons.mail_outline_rounded,
-                              color: tSecondaryColor),
+                            width: 2.0,
+                          )),
+                          prefixIcon: Icon(
+                            Icons.mail_outline_rounded,
+                          ),
                           border: OutlineInputBorder()),
                     ),
                     const SizedBox(
@@ -53,14 +105,16 @@ class ForgetPasswordMailScreen extends StatelessWidget {
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () {
-                          Navigator.pushNamed(context, '/forgotPassword/otp');
+                          // Navigator.pushNamed(context, '/forgotPassword/otp');
+                          passwordReset();
                         },
-                        child: const Text('Next'),
+                        child: Text(
+                          'Next',
+                        ),
                         style: ElevatedButton.styleFrom(
-                          textStyle:
-                              TextStyle(fontSize: 18), // Change text size
-                          backgroundColor:
-                              tSecondaryColor, // Change button color
+                          textStyle: TextStyle(fontSize: 18),
+                          // Change text size
+                          // Change button color
                           padding: EdgeInsets.symmetric(
                               horizontal: 20, vertical: 12), // Change padding
                           // Other style properties...

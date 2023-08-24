@@ -6,13 +6,12 @@ class FormHeaderWidget extends StatelessWidget {
       this.ImageColor,
       this.heightBetween,
       required this.image,
-      required this.title,
       required this.subtitle,
       this.imageHeight = 0.2,
       this.textAlign,
       this.crossAxisAlignment = CrossAxisAlignment.start});
 
-  final String image, title, subtitle;
+  final String image, subtitle;
   final Color? ImageColor;
   final double? imageHeight;
   final double? heightBetween;
@@ -23,26 +22,36 @@ class FormHeaderWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Image(
           image: AssetImage(image),
           height: size.height * 0.2,
         ),
-        Text(
-          title.toUpperCase(),
-          style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                fontSize: 24,
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-              ),
+        SizedBox(
+          height: 20,
         ),
-        Text(
-          subtitle,
-          style: Theme.of(context).textTheme.displaySmall?.copyWith(
-              fontSize: 18.0,
-              fontWeight: FontWeight.normal,
-              color: Colors.black54),
+        // Text(
+        //   title.toUpperCase(),
+        //   style: Theme.of(context).textTheme.displaySmall?.copyWith(
+        //         fontSize: 24,
+        //         fontWeight: FontWeight.bold,
+        //       ),
+        // ),
+        SizedBox(
+          height: 20,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              subtitle,
+              style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.normal,
+                  ),
+            ),
+          ],
         ),
       ],
     );

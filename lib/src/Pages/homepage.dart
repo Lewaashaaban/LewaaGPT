@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:my/src/Pages/sidebar.dart';
+import 'package:my/src/Pages/profile/widgets/sidebar.dart';
 import 'package:my/src/Pages/profile/profile_screen.dart';
 import 'package:my/src/constants/colors.dart';
 import 'package:my/src/constants/imageStrings.dart';

@@ -5,7 +5,7 @@ import 'package:my/src/Backend/models/userModel.dart';
 
 
 
-// 2- create User repossitory 
+// 2- create User repository 
 class UserRespository extends GetxController {
   static UserRespository get instance => Get.find();
 

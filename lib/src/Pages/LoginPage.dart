@@ -1,6 +1,9 @@
+// ignore_for_file: prefer_const_constructors, prefer_final_fields, library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:my/src/Backend/contollers/login_controller.dart';
 import 'package:my/src/Pages/forgot_password/fp_mail.dart';
 import 'package:my/src/Pages/forgot_password/fp_phone.dart';
@@ -18,8 +21,6 @@ class _LoginPageState extends State<LoginPage> {
   GlobalKey<FormState> _formKey =
       GlobalKey<FormState>(); // Form key for validation
 
-  bool isEmail = false;
-
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(LoginController());
@@ -34,188 +35,217 @@ class _LoginPageState extends State<LoginPage> {
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey, // Assign the form key to the Form widget
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // EMAIL TEXTBOX
-              TextFormField(
-                controller: controller.email,
-                decoration: InputDecoration(
-                  labelText: 'Enter Phone Number ',
-                  hintText: 'test@example.com',
-                  focusedBorder:
-                      OutlineInputBorder(borderSide: BorderSide(width: 2.0)),
-                  prefixIcon: Icon(
-                    Icons.email,
-                  ),
-                  border: OutlineInputBorder(),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              // crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // logo
+                Icon(
+                  Icons.android,
+                  size: 100,
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your email or phone number';
-                  }
-                  return null; // Return null to indicate the field is valid
-                },
-              ),
-              SizedBox(height: 16.0),
 
-              // PASSWORD TEXTBOX
-              TextFormField(
-                controller: controller.password,
-                obscureText: true,
-                decoration: InputDecoration(
-                  labelText: 'Password',
-                  hintText: 'Password',
-                  focusedBorder: OutlineInputBorder(
-                      borderSide:
-                          BorderSide(width: 2.0, color: tSecondaryColor)),
-                  prefixIcon: Icon(
-                    Icons.password,
-                  ),
-                  suffixIcon: IconButton(
-                    onPressed: null,
-                    icon: Icon(Icons.remove_red_eye_sharp),
-                  ),
-                  border: OutlineInputBorder(),
+                SizedBox(
+                  height: 35,
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your password';
-                  }
-                  return null; // Return null to indicate the field is valid
-                },
-              ),
-              SizedBox(height: 5.0),
 
-              // FORGOT PASSSWORD BTN
-              Align(
-                alignment: Alignment.centerRight,
-                child: TextButton(
-                  onPressed: () {
-                    showModalBottomSheet(
-                        context: context,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.0)),
-                        builder: (context) => Container(
-                              padding: EdgeInsets.all(tDefaultSize),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Make Selection!',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .displaySmall
-                                        ?.copyWith(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 24,
-                                        ),
-                                  ),
-                                  SizedBox(
-                                    height: 20.0,
-                                  ),
-                                  Text(
-                                      'Select one of the options given below to reset your password',
+                // hello again
+                Text(
+                  'Hello Again',
+                  style: GoogleFonts.bebasNeue(fontSize: 52),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  'Welcome back, you\'ve been miseed',
+                  style: TextStyle(fontSize: 18),
+                ),
+                SizedBox(
+                  height: 50,
+                ),
+
+                // Email TextField
+                TextFormField(
+                  controller: controller.email,
+                  decoration: InputDecoration(
+                    labelText: 'Enter email adress ',
+                    hintText: 'test@example.com',
+                    focusedBorder:
+                        OutlineInputBorder(borderSide: BorderSide(width: 2.0)),
+                    prefixIcon: Icon(
+                      Icons.email,
+                    ),
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                SizedBox(height: 16.0),
+
+                // password TextField
+                TextFormField(
+                  controller: controller.password,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                    hintText: 'Password',
+                    // filled: true,
+                    focusedBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(width: 2.0, color: tSecondaryColor)),
+                    prefixIcon: Icon(
+                      Icons.password,
+                    ),
+                    suffixIcon: IconButton(
+                      onPressed: null,
+                      icon: Icon(Icons.remove_red_eye_sharp),
+                    ),
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                SizedBox(height: 5.0),
+
+                // FORGOT PASSSWORD BTN
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: () {
+                      showModalBottomSheet(
+                          context: context,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0)),
+                          builder: (context) => Container(
+                                padding: EdgeInsets.all(tDefaultSize),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Make Selection!',
                                       style: Theme.of(context)
                                           .textTheme
-                                          .titleLarge),
-                                  const SizedBox(
-                                    height: 30.0,
-                                  ),
-                                  ForgetPasswordBtnWidget(
-                                    btnIcon: Icons.mail_outline_rounded,
-                                    title: 'E-mail',
-                                    subtitle: 'Reset via E-mail address',
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              ForgetPasswordMailScreen(),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                  SizedBox(
-                                    height: 20.0,
-                                  ),
-                                  ForgetPasswordBtnWidget(
-                                    btnIcon: Icons.mobile_friendly_rounded,
-                                    title: 'Phone No',
-                                    subtitle: 'Reset via Phone Number',
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              ForgotPasswordPhoneScreen(),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ));
-                  },
-                  child: const Text(
-                    'Forgot Password',
-                    style: TextStyle(fontSize: 14.0),
+                                          .displaySmall
+                                          ?.copyWith(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 24,
+                                          ),
+                                    ),
+                                    SizedBox(
+                                      height: 20.0,
+                                    ),
+                                    Text(
+                                        'Select one of the options given below to reset your password',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleLarge),
+                                    const SizedBox(
+                                      height: 30.0,
+                                    ),
+                                    ForgetPasswordBtnWidget(
+                                      btnIcon: Icons.mail_outline_rounded,
+                                      title: 'E-mail',
+                                      subtitle: 'Reset via E-mail address',
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                ForgetPasswordMailScreen(),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                    SizedBox(
+                                      height: 20.0,
+                                    ),
+                                    ForgetPasswordBtnWidget(
+                                      btnIcon: Icons.mobile_friendly_rounded,
+                                      title: 'Phone No',
+                                      subtitle: 'Reset via Phone Number',
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                ForgotPasswordPhoneScreen(),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ));
+                    },
+                    child: const Text(
+                      'Forgot Password',
+                      style: TextStyle(fontSize: 14.0),
+                    ),
                   ),
                 ),
-              ),
 
-              // LOGIN BTN
-              ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    // Form is valid, perform the login logic here
-                    LoginController.instance.login();
-                  }
-                },
-                child: Text('Login'),
-                style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(vertical: 16.0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  elevation: 5,
-                  // Button color
-                  textStyle: TextStyle(fontSize: 18.0),
-                ),
-              ),
-              SizedBox(
-                height: 20.0,
-              ),
-
-              // DON'T HAVE AN ACCOUNT? SIGNUP
-              RichText(
-                text: TextSpan(
-                  text: "Don't have an account?   ",
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
-                  children: [
-                    TextSpan(
-                      text: "SignUp",
-                      style: TextStyle(
-                        color: Colors.blue,
-                        fontWeight: FontWeight.bold,
+                // LOGIN BTN
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: Container(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          // Form is valid, perform the login logic here
+                          LoginController.instance.login();
+                        }
+                      },
+                      child: Text(
+                        'Sign In',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
                       ),
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => SignupPage(),
-                            ),
-                          );
-                        },
-                    )
-                  ],
+                      style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.symmetric(vertical: 16),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        elevation: 5,
+                        // Button color
+                        textStyle: TextStyle(fontSize: 18.0),
+                      ),
+                    ),
+                  ),
                 ),
-              )
-            ],
+                SizedBox(
+                  height: 20.0,
+                ),
+
+                // DON'T HAVE AN ACCOUNT? SIGNUP
+                RichText(
+                  text: TextSpan(
+                    text: "Don't have an account?   ",
+                    style: TextStyle(
+                      color: Colors.black,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: "SignUp",
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SignupPage(),
+                              ),
+                            );
+                          },
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),

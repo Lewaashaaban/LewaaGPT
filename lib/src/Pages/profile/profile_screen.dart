@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,39 +12,45 @@ import 'package:my/src/constants/colors.dart';
 import 'package:my/src/constants/imageStrings.dart';
 import 'package:my/src/constants/sizes.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
   @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+//   //  document IDs
+  List<String> docIDs = [];
+// got docIDs
+  Future getDocID() async {
+    await FirebaseFirestore.instance
+        .collection('Users')
+        .get()
+        .then((snapshot) => snapshot.docs.forEach((document) {
+              print(document.reference);
+              docIDs.add(document.reference.id);
+            }));
+  }
+ 
+
+  @override
+  void initState() {
+    getDocID();
+    super.initState();
+  }
+
   Widget build(BuildContext context) {
     var isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
     final user = FirebaseAuth.instance.currentUser;
-    Map<String, dynamic> userData = {};
-
-// Check if the 'fullName' field is written
-    bool isFullNameWritten = userData.containsKey('fullName') &&
-        userData['fullName'] != null &&
-        userData['fullName'] != '';
-
-// ... Inside your widget tree ...
-    if (isFullNameWritten) {
-      Text(
-        userData['fullName'],
-        style: Theme.of(context).textTheme.headlineMedium,
-      );
-    } else {
-      Text(
-        'Full Name Not Provided',
-        style: Theme.of(context).textTheme.headlineMedium,
-      );
-    }
+    // Map<String, dynamic> userData = {};
 
     return Scaffold(
       appBar: AppBar(
         // backgroundColor: tWhiteColor,
         leading: IconButton(
           onPressed: () {
-            Get.to(() => ChatScreen());
+            Get.back();
           },
           icon: const Icon(LineAwesomeIcons.angle_left),
         ),
@@ -54,9 +61,7 @@ class ProfileScreen extends StatelessWidget {
         centerTitle: true,
         actions: [
           IconButton(
-              onPressed: () {
-                Get.back();
-              },
+              onPressed: () {},
               icon:
                   Icon(isDark ? LineAwesomeIcons.sun : LineAwesomeIcons.moon)),
         ],
@@ -97,10 +102,9 @@ class ProfileScreen extends StatelessWidget {
                 ],
               ),
               const SizedBox(
-                height: 10,
               ),
               Text(
-                user?.uid ?? '',
+                user?.email ?? '',
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
               Text(

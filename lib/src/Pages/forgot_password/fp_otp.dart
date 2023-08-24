@@ -1,6 +1,6 @@
+// ignore_for_file: prefer_const_constructors, prefer_typing_uninitialized_variables, sort_child_properties_last
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 // import 'package:my/src/Pages/chat/chatScreen.dart';
 // import 'package:my/src/Pages/homepage.dart';

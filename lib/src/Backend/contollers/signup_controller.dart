@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my/src/Backend/models/userModel.dart';
-import 'package:my/src/repository/auth_repsitory/auth_repository.dart';
+// import 'package:my/src/Backend/models/userModel.dart';
+// import 'package:my/src/repository/auth_repsitory/auth_repository.dart';
 import 'package:my/src/repository/user_repository/user_repository.dart';
 
 class SignupController extends GetxController {
@@ -15,18 +17,42 @@ class SignupController extends GetxController {
 
   final userRepo = Get.put(UserRespository());
 
-  void registerUser(String email, String password, String phone) {
-    AuthenticationRepository.instance
-        .createUserWithEmailAndPasssword(email, password, phone);
-  }
+  // Future signup() async {
+  //   FirebaseAuth.instance.createUserWithEmailAndPassword(
+  //     email: email.text.trim(),
+  //     password: password.text.trim(),
+  //   );
+  // }
+  Future signup() async {
+    try {
+      final userModel = UserModel(
+        email: email.text.trim(),
+        fullName: fullName.text.trim(),
+        phoneNo: phoneNo.text.trim(),
+        passsword: password.text.trim(),
+      );
 
-// Get phone number from user and passs it to the Auth Repository for firebase Authentication
-  Future<void> CreateUser(UserModel user) async {
-    await userRepo.createUser(user);
-    phoneAuthentication(user.phoneNo);
-  }
-
-  void phoneAuthentication(String phoneNo) {
-    AuthenticationRepository.instance.phoneAuthentication(phoneNo);
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: userModel.email,
+        password: password.text.trim(),
+      );
+      // After creating the user, save additional information in Firestore
+      await userRepo.createUser(userModel);
+    } catch (e) {
+      print('Error signing up: $e');
+    }
   }
 }
+
+
+
+// Get phone number from user and pass it to the Auth Repository for firebase Authentication
+//   Future<void> CreateUser(UserModel user) async {
+//     await userRepo.createUser(user);
+//     phoneAuthentication(user.phoneNo);
+//   }
+
+//   void phoneAuthentication(String phoneNo) {
+//     AuthenticationRepository.instance.phoneAuthentication(phoneNo);
+//   }
+// }
