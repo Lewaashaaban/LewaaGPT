@@ -3,9 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-import 'package:my/src/Pages/chat/chatScreen.dart';
-// import 'package:my/src/Pages/chat/chatScreen.dart';
-// import 'package:my/src/Pages/homepage.dart';
 import 'package:my/src/Pages/profile/update_profile_screen.dart';
 import 'package:my/src/Pages/profile/widgets/profile_menu.dart';
 import 'package:my/src/constants/colors.dart';
@@ -32,13 +29,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               docIDs.add(document.reference.id);
             }));
   }
- 
 
-  @override
-  void initState() {
-    getDocID();
-    super.initState();
-  }
+  Future userInfo() async {}
 
   Widget build(BuildContext context) {
     var isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
@@ -101,8 +93,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   )
                 ],
               ),
-              const SizedBox(
-              ),
+              const SizedBox(),
               Text(
                 user?.email ?? '',
                 style: Theme.of(context).textTheme.headlineMedium,
@@ -162,7 +153,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ProfileMenuWidget(
                 title: 'Information',
                 icon: LineAwesomeIcons.info,
-                onPress: () {},
+                onPress: () {
+                  Navigator.pushNamed(context, '/profile/info');
+                },
               ),
               ProfileMenuWidget(
                 title: 'Logout',

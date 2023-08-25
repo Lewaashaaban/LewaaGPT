@@ -191,7 +191,7 @@ class _LoginPageState extends State<LoginPage> {
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           // Form is valid, perform the login logic here
-                          LoginController.instance.login();
+                          LoginController.instance.login(context);
                         }
                       },
                       child: Text(
