@@ -20,6 +20,13 @@ class WelcomeScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
+            // Text(
+            //   'LewaaGPT',
+            //   style: Theme.of(context)
+            //       .textTheme
+            //       .bodyLarge
+            //       ?.copyWith(fontWeight: FontWeight.bold),
+            // ),
             Image(
                 image: AssetImage(tWelcomeScreenImage),
                 height: height * 0.6,
@@ -50,7 +57,8 @@ class WelcomeScreen extends StatelessWidget {
                         // side: BorderSide(color: tSecondaryColor),
                         padding: EdgeInsets.symmetric(vertical: tButtonHeight),
                       ),
-                      child: Text("Login ".toUpperCase())),
+                      child: Text("Login ".toUpperCase(),
+                          style: TextStyle(fontWeight: FontWeight.bold))),
                 ),
                 SizedBox(
                   width: 10.0,
@@ -63,12 +71,12 @@ class WelcomeScreen extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                         elevation: 0,
                         shape: RoundedRectangleBorder(),
-                        // foregroundColor: tWhiteColor,
-                        // backgroundColor: tSecondaryColor,
-                        // side: BorderSide(color: tSecondaryColor),
                         padding: EdgeInsets.symmetric(vertical: tButtonHeight),
                       ),
-                      child: Text('SignUp'.toUpperCase())),
+                      child: Text(
+                        'SignUp'.toUpperCase(),
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )),
                 ),
               ],
             )

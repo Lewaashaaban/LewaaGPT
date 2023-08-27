@@ -1,8 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+// ignore_for_file: annotate_overrides
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:my/src/Backend/contollers/getUserData.dart';
 import 'package:my/src/Pages/profile/update_profile_screen.dart';
 import 'package:my/src/Pages/profile/widgets/profile_menu.dart';
 import 'package:my/src/constants/colors.dart';
@@ -17,24 +18,34 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-//   //  document IDs
-  List<String> docIDs = [];
-// got docIDs
-  Future getDocID() async {
-    await FirebaseFirestore.instance
-        .collection('Users')
-        .get()
-        .then((snapshot) => snapshot.docs.forEach((document) {
-              print(document.reference);
-              docIDs.add(document.reference.id);
-            }));
+  @override
+  void initState() {
+    super.initState();
+    fetchUserData();
   }
 
-  Future userInfo() async {}
+  List<String> docIDs = [];
+  Map<String, dynamic>? userData;
+  String? errorMessage;
+
+  DateTime? creationTime;
+  late Future<Map<String, dynamic>> userDataFuture; // Declare the Future
+
+  Future<void> fetchUserData() async {
+    userDataFuture = getUserDataForCurrentUser(); // Assign the Future here
+    final userDataAndCreationTimeResult = await userDataFuture;
+    setState(() {
+      errorMessage = userDataAndCreationTimeResult['errorMessage'];
+      if (errorMessage == null) {
+        userData = userDataAndCreationTimeResult['userData'];
+        creationTime = userDataAndCreationTimeResult['creationTime'];
+      }
+    });
+  }
 
   Widget build(BuildContext context) {
     var isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
-    final user = FirebaseAuth.instance.currentUser;
+    // final user = FirebaseAuth.instance.currentUser;
     // Map<String, dynamic> userData = {};
 
     return Scaffold(
@@ -71,8 +82,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(100),
                         child: Image(
-                          image: AssetImage(tLewaaImage),
+                          image: AssetImage(tUSerIamge),
                         )),
+                  ),
+                  SizedBox(
+                    height: 20,
                   ),
                   Positioned(
                     bottom: 0,
@@ -93,35 +107,80 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   )
                 ],
               ),
-              const SizedBox(),
-              Text(
-                user?.email ?? '',
-                style: Theme.of(context).textTheme.headlineMedium,
+
+              // const SizedBox(),
+              Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    if (errorMessage != null)
+                      Text(
+                        errorMessage!,
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    if (userData != null)
+
+                      // Use FutureBuilder for displaying user data
+                      FutureBuilder<Map<String, dynamic>>(
+                          future: userDataFuture,
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return CircularProgressIndicator();
+                            } else if (snapshot.hasError) {
+                              return Text('Error: ${snapshot.error}');
+                            } else {
+                              final userData = snapshot.data!['userData'];
+                              return ListTile(
+                                title: Text(
+                                  userData != null
+                                      ? '${userData['FullName']}'
+                                      : 'Loading...', // Show loading or placeholder text
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headlineMedium,
+                                  textAlign: TextAlign.center,
+                                ),
+                                subtitle: Column(
+                                  children: [
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text(
+                                      userData != null
+                                          ? '${userData['Email']}'
+                                          : 'Loading...', // Show loading or placeholder text
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headlineMedium,
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }
+                          })
+                  ],
+                ),
               ),
-              Text(
-                user?.email ?? '',
-                style: Theme.of(context)
-                    .textTheme
-                    .displayMedium
-                    ?.copyWith(fontSize: 22.0),
-              ),
-              const SizedBox(height: 20),
-              SizedBox(
-                  width: 200,
-                  child: ElevatedButton(
-                    onPressed: () => {
-                      Get.to(() => const UpdateProfileScreen()),
-                    },
-                    child: Text(
-                      'Edit Profile',
-                      style: TextStyle(color: tDarkColor),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: tPrimaryColor,
-                      side: BorderSide.none,
-                      shape: StadiumBorder(),
-                    ),
-                  )),
+
+              // const SizedBox(height: 20),
+              // SizedBox(
+              //     width: 200,
+              //     child: ElevatedButton(
+              //       onPressed: () => {
+              //         Get.to(() => UpdateProfileScreen()),
+              //       },
+              //       child: Text(
+              //         'Edit Profile',
+              //         style: TextStyle(color: tDarkColor),
+              //       ),
+              //       style: ElevatedButton.styleFrom(
+              //         backgroundColor: tPrimaryColor,
+              //         side: BorderSide.none,
+              //         shape: StadiumBorder(),
+              //       ),
+              //     )),
               const SizedBox(
                 height: 10,
               ),
@@ -144,19 +203,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ProfileMenuWidget(
                 title: 'User Managment',
                 icon: LineAwesomeIcons.user_check,
-                onPress: () {},
+                onPress: () {
+                  Get.to(() => UpdateProfileScreen());
+                },
               ),
               const Divider(),
               const SizedBox(
                 height: 10,
               ),
-              ProfileMenuWidget(
-                title: 'Information',
-                icon: LineAwesomeIcons.info,
-                onPress: () {
-                  Navigator.pushNamed(context, '/profile/info');
-                },
-              ),
+
               ProfileMenuWidget(
                 title: 'Logout',
                 icon: LineAwesomeIcons.alternate_sign_out,

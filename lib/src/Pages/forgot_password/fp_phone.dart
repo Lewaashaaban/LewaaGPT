@@ -50,7 +50,7 @@ class _ForgotPasswordPhoneScreenState extends State<ForgotPasswordPhoneScreen> {
             onPressed: () {
               Get.back();
             },
-            icon: Icon(LineAwesomeIcons.angle_double_left)),
+            icon: Icon(LineAwesomeIcons.angle_left)),
         // title: Text('Reset passsword'),
         centerTitle: true,
       ),
@@ -65,8 +65,7 @@ class _ForgotPasswordPhoneScreenState extends State<ForgotPasswordPhoneScreen> {
                 ),
                 FormHeaderWidget(
                   image: tForgotPasswordImage,
-                  subtitle:
-                      'Select one of the options \nbelow  to reset your password',
+                  subtitle: 'Enter your number to send\n a password reset link',
                   // crossAxisAlignment: CrossAxisAlignment.center,
                   heightBetween: 30.0,
                   textAlign: TextAlign.center,

@@ -33,7 +33,7 @@ class _ForgetPasswordMailScreenState extends State<ForgetPasswordMailScreen> {
           builder: (context) {
             return AlertDialog(
               content:
-                  Text('Password resst link sent, please check your email'),
+                  Text('Password reset link sent, please check your email'),
             );
           });
     } on FirebaseAuthException catch (e) {

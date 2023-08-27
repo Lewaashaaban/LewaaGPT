@@ -1,14 +1,71 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:my/src/Backend/contollers/getUserData.dart';
+import 'package:my/src/Backend/contollers/updateUserData.dart';
 import 'package:my/src/constants/colors.dart';
 import 'package:my/src/constants/imageStrings.dart';
 import 'package:my/src/constants/sizes.dart';
-import 'package:my/src/constants/text.dart';
 
-// import 'package:my/src/features/authentication/Pages/profile/widgets/profile_menu.dart';
-class UpdateProfileScreen extends StatelessWidget {
+class UpdateProfileScreen extends StatefulWidget {
   const UpdateProfileScreen({Key? key}) : super(key: key);
+
+  @override
+  State<UpdateProfileScreen> createState() => _UpdateProfileScreenState();
+}
+
+class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
+  @override
+  void initState() {
+    super.initState();
+    fetchUserData();
+  }
+
+//  Function to Get the user data
+  Map<String, dynamic>? userData;
+  String? errorMessage;
+  DateTime? creationTime;
+  late Future<Map<String, dynamic>> userDataFuture; // Declare the Future
+  Future<void> fetchUserData() async {
+    userDataFuture = getUserDataForCurrentUser(); // Assign the Future here
+    final userDataAndCreationTimeResult = await userDataFuture;
+    setState(() {
+      errorMessage = userDataAndCreationTimeResult['errorMessage'];
+      if (errorMessage == null) {
+        userData = userDataAndCreationTimeResult['userData'];
+        creationTime = userDataAndCreationTimeResult['creationTime'];
+      }
+    });
+  }
+
+  // function to update userData
+
+  TextEditingController _fullNameController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _phoneController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+
+  Future<void> updateUserData() async {
+    final updatedFullName = _fullNameController.text;
+    final updatedEmail = _emailController.text;
+    final updatedPhone = _phoneController.text;
+    final updatedPassword = _passwordController.text;
+
+    try {
+      await updateProfile(
+        fullName: updatedFullName,
+        email: updatedEmail,
+        phone: updatedPhone,
+        password: updatedPassword,
+      );
+
+      Get.snackbar('Success', 'Profile updated successfully');
+      Get.back();
+    } catch (error) {
+      Get.snackbar('Error', 'An error occurred while updating profile');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +76,7 @@ class UpdateProfileScreen extends StatelessWidget {
         leading: IconButton(
             onPressed: () => Get.back(),
             icon: const Icon(LineAwesomeIcons.angle_left)),
-        title: Text('Edit Profile',
+        title: Text('Update Profile',
             style: Theme.of(context).textTheme.headlineMedium),
       ),
       body: SingleChildScrollView(
@@ -35,7 +92,7 @@ class UpdateProfileScreen extends StatelessWidget {
                     height: 120,
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(100),
-                        child: const Image(image: AssetImage(tLewaaImage))),
+                        child: const Image(image: AssetImage(tUSerIamge))),
                   ),
                   Positioned(
                     bottom: 0,
@@ -58,33 +115,73 @@ class UpdateProfileScreen extends StatelessWidget {
               Form(
                 child: Column(
                   children: [
-                    TextFormField(
-                      decoration: const InputDecoration(
-                          label: Text(tFullName),
-                          prefixIcon: Icon(LineAwesomeIcons.user)),
-                    ),
-                    const SizedBox(height: tFormHeight - 20),
-                    TextFormField(
-                      decoration: const InputDecoration(
-                          label: Text(tEmail),
-                          prefixIcon: Icon(LineAwesomeIcons.envelope_1)),
-                    ),
-                    const SizedBox(height: tFormHeight - 20),
-                    TextFormField(
-                      decoration: const InputDecoration(
-                          label: Text(tPhoneNo),
-                          prefixIcon: Icon(LineAwesomeIcons.phone)),
-                    ),
-                    const SizedBox(height: tFormHeight - 20),
-                    TextFormField(
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        label: const Text(tPassword),
-                        prefixIcon: const Icon(Icons.fingerprint),
-                        suffixIcon: IconButton(
-                            icon: const Icon(LineAwesomeIcons.eye_slash),
-                            onPressed: () {}),
-                      ),
+                    FutureBuilder<Map<String, dynamic>>(
+                      future: userDataFuture,
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return CircularProgressIndicator(); // Show a loading indicator
+                        } else if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        } else {
+                          final userData = snapshot.data!['userData'];
+                          return Column(
+                            children: [
+                              // name textfield
+                              TextFormField(
+                                controller: _fullNameController,
+                                decoration: InputDecoration(
+                                  labelText: userData != null
+                                      ? '${userData['FullName']}'
+                                      : '',
+                                  prefixIcon: Icon(LineAwesomeIcons.user),
+                                ),
+                              ),
+                              SizedBox(height: tFormHeight - 15),
+
+                              // email textfield
+                              TextFormField(
+                                controller: _emailController,
+                                decoration: InputDecoration(
+                                  labelText: userData != null
+                                      ? '${userData['Email']}'
+                                      : '',
+                                  prefixIcon: Icon(LineAwesomeIcons.envelope_1),
+                                ),
+                              ),
+                              SizedBox(height: tFormHeight - 15),
+
+                              // phone textfield
+                              TextFormField(
+                                controller: _phoneController,
+                                decoration: InputDecoration(
+                                  labelText: userData != null
+                                      ? '${userData['Phone']}'
+                                      : '',
+                                  prefixIcon: Icon(LineAwesomeIcons.phone),
+                                ),
+                              ),
+                              SizedBox(height: tFormHeight - 15),
+
+                              // pasword textfield
+                              TextFormField(
+                                controller: _passwordController,
+                                obscureText: true,
+                                decoration: InputDecoration(
+                                  labelText: userData != null
+                                      ? '${userData['Password']}'
+                                      : '',
+                                  prefixIcon: const Icon(Icons.fingerprint),
+                                  suffixIcon: IconButton(
+                                      icon: const Icon(
+                                          LineAwesomeIcons.eye_slash),
+                                      onPressed: () {}),
+                                ),
+                              ),
+                            ],
+                          );
+                        }
+                      },
                     ),
                     const SizedBox(height: tFormHeight),
 
@@ -92,35 +189,26 @@ class UpdateProfileScreen extends StatelessWidget {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () =>
-                            Get.to(() => const UpdateProfileScreen()),
+                        onPressed: () {
+                          updateUserData();
+                        },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: tPrimaryColor,
                             side: BorderSide.none,
                             shape: const StadiumBorder()),
-                        child: const Text('Edit Profile',
+                        child: const Text('Update Profile',
                             style: TextStyle(color: tDarkColor)),
                       ),
                     ),
                     const SizedBox(height: tFormHeight),
 
                     // -- Created Date and Delete Button
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    Column(
                       children: [
-                        Text.rich(
-                          TextSpan(
-                            text: 'Joined ',
-                            style: TextStyle(fontSize: 12),
-                            children: [
-                              TextSpan(
-                                  text: tJoinedAt,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 12))
-                            ],
+                        if (creationTime != null)
+                          Text(
+                            "Account created on: ${DateFormat('yyyy-MM-dd HH:mm:ss \n').format(creationTime!)}",
                           ),
-                        ),
                         ElevatedButton(
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
@@ -130,7 +218,7 @@ class UpdateProfileScreen extends StatelessWidget {
                               foregroundColor: Colors.red,
                               shape: const StadiumBorder(),
                               side: BorderSide.none),
-                          child: const Text('Delete'),
+                          child: const Text('Delete Account'),
                         ),
                       ],
                     )

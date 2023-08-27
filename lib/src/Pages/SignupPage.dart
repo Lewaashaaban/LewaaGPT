@@ -4,11 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my/src/Backend/contollers/signup_controller.dart';
-import 'package:my/src/Backend/models/userModel.dart';
-import 'package:my/src/Pages/chat/chatScreen.dart';
-import 'package:my/src/Pages/forgot_password/fp_otp.dart';
 import 'package:my/src/constants/colors.dart';
-import 'package:my/src/constants/imageStrings.dart';
+
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -127,10 +124,10 @@ class _SignupPageState extends State<SignupPage> {
                             //   fullName: controller.fullName.text.trim(),
                             //   phoneNo: controller.phoneNo.text.trim(),
                             // );
-                            SignupController.instance.signup();
+                            SignupController.instance.signup(context);
 
                             // Get.to(() => const OTPscreen());
-                            Navigator.pushNamed(context, '/chat');
+                            // Navigator.pushNamed(context, '/chat');
                           }
                         },
                         child: Text(

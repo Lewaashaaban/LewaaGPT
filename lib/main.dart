@@ -7,7 +7,7 @@ import 'package:my/src/Pages/LoginPage.dart';
 import 'package:my/src/Pages/SignupPage.dart';
 import 'package:my/src/Pages/chat/chatScreen.dart';
 import 'package:my/src/Pages/profile/profile_screen.dart';
-import 'package:my/src/Pages/profile/userInfo.dart';
+import 'package:my/src/Pages/profile/userInfo/userInfo.dart';
 import 'package:my/src/repository/auth_repsitory/auth_repository.dart';
 import 'package:my/src/theme/theme.dart';
 import 'src/Pages/forgot_password/fp_mail.dart';
@@ -16,7 +16,6 @@ import 'src/Pages/forgot_password/fp_phone.dart';
 import 'src/Pages/welcomePage.dart';
 
 void main() {
-
   WidgetsFlutterBinding();
   Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform)
       .then((value) {
@@ -35,7 +34,7 @@ class MyApp extends StatelessWidget {
       darkTheme: TAppTheme.darktheme,
       themeMode: ThemeMode.system,
       debugShowCheckedModeBanner: false,
-      initialRoute: '/chat',
+      initialRoute: '/',
       routes: {
         '/': (context) => WelcomeScreen(),
         '/login': (context) => LoginPage(),

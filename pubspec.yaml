@@ -29,6 +29,7 @@ dependencies:
   cloud_firestore: ^4.8.5
   envied: ^0.3.0+3
   dialog_flowtter:
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_lints: ^2.0.2

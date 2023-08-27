@@ -15,14 +15,23 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+
+  //  dialog flutter for ai 
   late DialogFlowtter dialogFlowtter;
+
   final TextEditingController _controller = TextEditingController();
+
+  // check if ai is replying with a message
+  bool isSendingMessage = false;
 
   List<Map<String, dynamic>> messages = [];
 
+  // to sscroll down to the message automtically
+  late ScrollController _scrollController;
   @override
   void initState() {
     super.initState();
+    _scrollController = ScrollController();
     dialogFlowtter = DialogFlowtter(jsonPath: 'assets/dialog_flow_auth.json');
   }
 
@@ -69,18 +78,25 @@ class _ChatScreenState extends State<ChatScreen> {
                       child: TextField(
                     controller: _controller,
                     style: TextStyle(color: Colors.white),
+                    enabled:
+                        !isSendingMessage, // Disable the text field while sending
                   )),
                   IconButton(
                     onPressed: () {
-                      sendMessage(_controller.text);
-                      _controller.clear();
+                      isSendingMessage
+                          ? null
+                          : () {
+                              sendMessage(_controller.text);
+                              _controller.clear();
+                            };
                     },
                     icon: Icon(Icons.send_rounded),
                     color: Color.fromRGBO(142, 142, 160, 1),
                   ),
                 ],
               ),
-            )
+            ),
+            if (isSendingMessage) CircularProgressIndicator(),
           ],
         ),
       ),
@@ -89,17 +105,23 @@ class _ChatScreenState extends State<ChatScreen> {
 
   sendMessage(String text) async {
     if (text.isEmpty) {
-      print('message is empty');
+      SnackBar(content: Text('message is empty'));
     } else {
       setState(() {
+        isSendingMessage = true;
         addMessage(Message(text: DialogText(text: [text])), true);
       });
 
       DetectIntentResponse response = await dialogFlowtter.detectIntent(
           queryInput: QueryInput(text: TextInput(text: text)));
+      setState(() {
+        isSendingMessage = false;
+      });
       if (response.message == null) return;
       setState(() {
-        addMessage(response.message!);
+        addMessage(Message(
+            text: DialogText(
+                text: ["I'm sorry, I have no info about your message"])));
       });
     }
   }
