@@ -15,8 +15,7 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-
-  //  dialog flutter for ai 
+  //  dialog flutter for ai
   late DialogFlowtter dialogFlowtter;
 
   final TextEditingController _controller = TextEditingController();
@@ -78,8 +77,8 @@ class _ChatScreenState extends State<ChatScreen> {
                       child: TextField(
                     controller: _controller,
                     style: TextStyle(color: Colors.white),
-                    enabled:
-                        !isSendingMessage, // Disable the text field while sending
+                    // enabled:
+                    //     !isSendingMessage, // Disable the text field while sending
                   )),
                   IconButton(
                     onPressed: () {

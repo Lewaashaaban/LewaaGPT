@@ -31,6 +31,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   DateTime? creationTime;
   late Future<Map<String, dynamic>> userDataFuture; // Declare the Future
 
+// fxn to fetch userdata
   Future<void> fetchUserData() async {
     userDataFuture = getUserDataForCurrentUser(); // Assign the Future here
     final userDataAndCreationTimeResult = await userDataFuture;
@@ -43,10 +44,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
     });
   }
 
+// frn to logout
+  Future<void> logOut() async {
+    var response = await Get.dialog<bool>(
+      AlertDialog(
+        iconColor: tPrimaryColor,
+        
+        title: Text('Logout'),
+        content: Text('Are you sure you want to logout?'),
+        actions: [
+          TextButton(
+            onPressed: () => Get.back(result: false), // Cancel button
+            child: Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () => Get.back(result: true), // Delete button
+            child: Text('Logout'),
+          ),
+        ],
+      ),
+    );
+
+    if (response != null && response) {
+      Get.offAllNamed('/');
+    }
+  }
+
   Widget build(BuildContext context) {
     var isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
-    // final user = FirebaseAuth.instance.currentUser;
-    // Map<String, dynamic> userData = {};
 
     return Scaffold(
       appBar: AppBar(
@@ -164,23 +189,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
 
-              // const SizedBox(height: 20),
-              // SizedBox(
-              //     width: 200,
-              //     child: ElevatedButton(
-              //       onPressed: () => {
-              //         Get.to(() => UpdateProfileScreen()),
-              //       },
-              //       child: Text(
-              //         'Edit Profile',
-              //         style: TextStyle(color: tDarkColor),
-              //       ),
-              //       style: ElevatedButton.styleFrom(
-              //         backgroundColor: tPrimaryColor,
-              //         side: BorderSide.none,
-              //         shape: StadiumBorder(),
-              //       ),
-              //     )),
               const SizedBox(
                 height: 10,
               ),
@@ -191,22 +199,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
               // MENU
               ProfileMenuWidget(
-                title: 'Settings',
-                icon: LineAwesomeIcons.cog,
-                onPress: () {},
-              ),
-              ProfileMenuWidget(
-                title: 'Billing Details',
-                icon: LineAwesomeIcons.wallet,
-                onPress: () {},
-              ),
-              ProfileMenuWidget(
                 title: 'User Managment',
                 icon: LineAwesomeIcons.user_check,
                 onPress: () {
                   Get.to(() => UpdateProfileScreen());
                 },
               ),
+              // ProfileMenuWidget(
+              //   title: 'Settings',
+              //   icon: LineAwesomeIcons.cog,
+              //   onPress: () {},
+              // ),
+              ProfileMenuWidget(
+                title: 'Billing Details',
+                icon: LineAwesomeIcons.wallet,
+                onPress: () {},
+              ),
+
               const Divider(),
               const SizedBox(
                 height: 10,
@@ -217,7 +226,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 icon: LineAwesomeIcons.alternate_sign_out,
                 textColor: Colors.red,
                 onPress: () {
-                  Get.offAllNamed('/');
+                  logOut();
                 },
                 endIcon: false,
               ),

@@ -1,9 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:my/src/Backend/contollers/deleteUserData.dart';
 import 'package:my/src/Backend/contollers/getUserData.dart';
 import 'package:my/src/Backend/contollers/updateUserData.dart';
+import 'package:my/src/Pages/welcomePage.dart';
 import 'package:my/src/constants/colors.dart';
 import 'package:my/src/constants/imageStrings.dart';
 import 'package:my/src/constants/sizes.dart';
@@ -26,7 +29,14 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   Map<String, dynamic>? userData;
   String? errorMessage;
   DateTime? creationTime;
-  late Future<Map<String, dynamic>> userDataFuture; // Declare the Future
+  late Future<Map<String, dynamic>> userDataFuture;
+
+  TextEditingController _fullNameController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _phoneController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+
+  // fxn to get usser data
   Future<void> fetchUserData() async {
     userDataFuture = getUserDataForCurrentUser(); // Assign the Future here
     final userDataAndCreationTimeResult = await userDataFuture;
@@ -39,13 +49,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
     });
   }
 
-  // function to update userData
-
-  TextEditingController _fullNameController = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _phoneController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-
+  // fxn to update userdata
   Future<void> updateUserData() async {
     final updatedFullName = _fullNameController.text;
     final updatedEmail = _emailController.text;
@@ -64,6 +68,41 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
       Get.back();
     } catch (error) {
       Get.snackbar('Error', 'An error occurred while updating profile');
+    }
+  }
+
+  // fxn to delete user
+  Future<void> logOutAndShowConfirmation() async {
+    var response = await Get.dialog<bool>(
+      AlertDialog(
+        title: Text('Confirm Account Deletion'),
+        content: Text('Are you sure you want to delete your account?'),
+        actions: [
+          TextButton(
+            onPressed: () => Get.back(result: false), // Cancel button
+            child: Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () => Get.back(result: true), // Delete button
+            child: Text('Delete'),
+          ),
+        ],
+      ),
+    );
+    if (response != null && response) {
+      try {
+        final user = FirebaseAuth.instance.currentUser;
+        if (user != null) {
+          await user.delete();
+          final userId = user.uid;
+          await deleteUserData(userId);
+          Get.offAll(() => WelcomeScreen());
+          Get.snackbar(
+              'Success', 'User deleted successfully. You are logged out');
+        }
+      } catch (e) {
+        Get.snackbar('Error', 'An error occurred while deleting your account.');
+      }
     }
   }
 
@@ -210,7 +249,9 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                             "Account created on: ${DateFormat('yyyy-MM-dd HH:mm:ss \n').format(creationTime!)}",
                           ),
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            logOutAndShowConfirmation();
+                          },
                           style: ElevatedButton.styleFrom(
                               backgroundColor:
                                   Colors.redAccent.withOpacity(0.1),
