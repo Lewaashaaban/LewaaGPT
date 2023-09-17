@@ -8,6 +8,7 @@ import 'package:my/src/repository/user_repository/user_repository.dart';
 
 class SignupController extends GetxController {
   static SignupController get instance => Get.find();
+  final signupSuccess = false.obs; // Add an observable flag
 
   // TextField Controllers to get data from TextFielnds
   final email = TextEditingController();
@@ -37,6 +38,13 @@ class SignupController extends GetxController {
           .collection('Users')
           .doc(userModel.id) // Use the UID as the document ID
           .set(userModel.toJson()); // Store the user data in the document
+      // Set the signupSuccess flag to true
+      signupSuccess.value = true;
+
+      // Only navigate to /chat if signup was successful
+      if (signupSuccess.value) {
+        Navigator.pushNamed(context, '/chat');
+      }
     } on FirebaseAuthException catch (e) {
       showDialog(
         context: context,

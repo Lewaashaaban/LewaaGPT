@@ -6,7 +6,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:my/src/Backend/contollers/signup_controller.dart';
 import 'package:my/src/constants/colors.dart';
 
-
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
 
@@ -151,32 +150,7 @@ class _SignupPageState extends State<SignupPage> {
                     SizedBox(
                       height: 20.0,
                     ),
-                    // Center(child: Text('OR')),
-                    // SizedBox(
-                    //   height: 20.0,
-                    // ),
-                    // ButtonTheme(
-                    //   height: 60.0, // Match the height of ElevatedButton
-                    //   child: SizedBox(
-                    //     child: OutlinedButton.icon(
-                    //       onPressed: () {},
-                    //       icon: const Image(
-                    //         image: AssetImage(tGoogleLogo),
-                    //         width: 20.0,
-                    //       ),
-                    //       label: Text('Sign in with Google'),
-                    //       style: OutlinedButton.styleFrom(
-                    //         foregroundColor: tSecondaryColor, // Text color
-                    //         shape: RoundedRectangleBorder(
-                    //           borderRadius: BorderRadius.circular(
-                    //               8.0), // Button border radius
-                    //           side: BorderSide(
-                    //               color: tPrimaryColor), // Button border color
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
+
                     TextButton(
                         onPressed: () {},
                         child: GestureDetector(

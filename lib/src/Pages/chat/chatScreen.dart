@@ -41,11 +41,11 @@ class _ChatScreenState extends State<ChatScreen> {
         elevation: 0,
         centerTitle: true,
         backgroundColor: Colors.transparent,
-        leading: Icon(
-          Icons.menu,
-          //For Dark Color
-          color: isDark ? tWhiteColor : tDarkColor,
-        ),
+        // leading: Icon(
+        //   Icons.menu,
+        //   //For Dark Color
+        //   color: isDark ? tWhiteColor : tDarkColor,
+        // ),
         title:
             Text('LewaaGPT', style: Theme.of(context).textTheme.headlineMedium),
         actions: [
@@ -82,12 +82,12 @@ class _ChatScreenState extends State<ChatScreen> {
                   )),
                   IconButton(
                     onPressed: () {
-                      isSendingMessage
-                          ? null
-                          : () {
-                              sendMessage(_controller.text);
-                              _controller.clear();
-                            };
+                      // isSendingMessage
+                      //     ? null
+                      //     : () {
+                      sendMessage(_controller.text);
+                      _controller.clear();
+                      // };
                     },
                     icon: Icon(Icons.send_rounded),
                     color: Color.fromRGBO(142, 142, 160, 1),
@@ -111,17 +111,31 @@ class _ChatScreenState extends State<ChatScreen> {
         addMessage(Message(text: DialogText(text: [text])), true);
       });
 
-      DetectIntentResponse response = await dialogFlowtter.detectIntent(
-          queryInput: QueryInput(text: TextInput(text: text)));
-      setState(() {
-        isSendingMessage = false;
-      });
-      if (response.message == null) return;
-      setState(() {
-        addMessage(Message(
-            text: DialogText(
-                text: ["I'm sorry, I have no info about your message"])));
-      });
+      try {
+        DetectIntentResponse response = await dialogFlowtter.detectIntent(
+          queryInput: QueryInput(text: TextInput(text: text)),
+        );
+
+        setState(() {
+          isSendingMessage = false;
+        });
+
+        if (response.message != null) {
+          setState(() {
+            final responseText = response.message!.text?.text?.isNotEmpty ==
+                    true
+                ? response.message!.text!.text![0]
+                : 'No response text provided'; // Provide a default message if text is null or empty
+            addMessage(Message(text: DialogText(text: [responseText])));
+          });
+        } else {
+          // Handle the case where Dialogflow didn't provide a response
+          print('Dialogflow did not provide a response.');
+        }
+      } catch (error) {
+        // Handle any errors that occur during communication with Dialogflow
+        print('Error communicating with Dialogflow: $error');
+      }
     }
   }
 

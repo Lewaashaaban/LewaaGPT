@@ -14,7 +14,7 @@ dependencies:
   http:
   provider: ^6.0.5
   cupertino_icons: ^1.0.2
-  google_fonts: ^5.1.0
+  google_fonts: ^6.0.0
   flutter_native_splash: ^2.3.1
   flutter_otp_text_field: ^1.1.1
   get: ^4.6.5
@@ -27,6 +27,8 @@ dependencies:
   firebase_core: ^2.15.0
   firebase_auth: ^4.7.2
   cloud_firestore: ^4.8.5
+  image_picker: ^1.0.4
+  firebase_storage: ^11.2.6
   envied: ^0.3.0+3
   dialog_flowtter:
   intl: ^0.18.1

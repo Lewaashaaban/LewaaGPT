@@ -192,6 +192,7 @@ class _LoginPageState extends State<LoginPage> {
                         if (_formKey.currentState!.validate()) {
                           // Form is valid, perform the login logic here
                           LoginController.instance.login(context);
+                          // Navigator.pushNamed(context, '/chat');
                         }
                       },
                       child: Text(

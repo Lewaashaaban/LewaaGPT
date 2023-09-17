@@ -9,6 +9,8 @@ import 'package:my/src/Pages/profile/widgets/profile_menu.dart';
 import 'package:my/src/constants/colors.dart';
 import 'package:my/src/constants/imageStrings.dart';
 import 'package:my/src/constants/sizes.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -49,7 +51,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     var response = await Get.dialog<bool>(
       AlertDialog(
         iconColor: tPrimaryColor,
-        
         title: Text('Logout'),
         content: Text('Are you sure you want to logout?'),
         actions: [
@@ -67,6 +68,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     if (response != null && response) {
       Get.offAllNamed('/');
+    }
+  }
+
+// fxn to open image picker
+  Future<void> _pickImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      // Handle the selected image (e.g., display it or upload it).
+      File selectedImage = File(pickedFile.path);
+      // You can now use 'selectedImage' to display or upload the user's profile photo.
     }
   }
 
@@ -113,23 +126,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   SizedBox(
                     height: 20,
                   ),
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: Container(
-                      width: 35,
-                      height: 35,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        color: tPrimaryColor,
-                      ),
-                      child: const Icon(
-                        LineAwesomeIcons.alternate_pencil,
-                        size: 20,
-                        color: Colors.black,
-                      ),
-                    ),
-                  )
                 ],
               ),
 

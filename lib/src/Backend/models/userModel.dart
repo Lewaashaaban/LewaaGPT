@@ -6,6 +6,7 @@ class UserModel {
   final String email;
   final String phoneNo;
   final String passsword;
+  final String? imageUrl;
 
   const UserModel({
     this.id,
@@ -13,6 +14,7 @@ class UserModel {
     required this.fullName,
     required this.passsword,
     required this.phoneNo,
+    this.imageUrl, // Initialize it as null in the constructor
   });
 
   toJson() {
@@ -21,6 +23,7 @@ class UserModel {
       "Email": email,
       "Phone": phoneNo,
       "Password": passsword,
+      "ImageUrl": imageUrl,
     };
   }
 }
