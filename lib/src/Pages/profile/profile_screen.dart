@@ -1,5 +1,7 @@
 // ignore_for_file: annotate_overrides
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
@@ -20,10 +22,13 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  String? imageUrl;
+
   @override
   void initState() {
     super.initState();
     fetchUserData();
+    fetchImageUrl();
   }
 
   List<String> docIDs = [];
@@ -44,6 +49,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
         creationTime = userDataAndCreationTimeResult['creationTime'];
       }
     });
+  }
+
+// fxn to fetch the imageUrl from Firestore
+  Future<void> fetchImageUrl() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      try {
+        final userDataSnapshot = await FirebaseFirestore.instance
+            .collection('Users')
+            .doc(user.uid)
+            .get();
+
+        if (userDataSnapshot.exists) {
+          final data = userDataSnapshot.data() as Map<String, dynamic>;
+          final imageUrl = data['ImageUrl'];
+          setState(() {
+            this.imageUrl = imageUrl;
+          });
+        }
+      } catch (error) {
+        print('Error fetching imageUrl from Firestore: $error');
+      }
+    }
   }
 
 // frn to logout
@@ -68,18 +96,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     if (response != null && response) {
       Get.offAllNamed('/');
-    }
-  }
-
-// fxn to open image picker
-  Future<void> _pickImage() async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-
-    if (pickedFile != null) {
-      // Handle the selected image (e.g., display it or upload it).
-      File selectedImage = File(pickedFile.path);
-      // You can now use 'selectedImage' to display or upload the user's profile photo.
     }
   }
 
@@ -118,10 +134,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     width: 120,
                     height: 120,
                     child: ClipRRect(
-                        borderRadius: BorderRadius.circular(100),
-                        child: Image(
-                          image: AssetImage(tUSerIamge),
-                        )),
+                      borderRadius: BorderRadius.circular(100),
+                      child: imageUrl != null && imageUrl!.isNotEmpty
+                          ? Image.network(
+                              imageUrl!,
+                              fit: BoxFit.cover,
+                            )
+                          : Image.asset(
+                              tUSerIamge), // Display a default image if imageUrl is empty
+                    ),
                   ),
                   SizedBox(
                     height: 20,
