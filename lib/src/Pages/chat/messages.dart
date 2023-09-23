@@ -14,6 +14,10 @@ class _MessagesScreenState extends State<MessagesScreen> {
     double w = MediaQuery.of(context).size.width;
     return ListView.separated(
         itemBuilder: (context, index) {
+          Color textColor = widget.messages[index]['isUserMessage']
+              ? Colors.white // Text color for user messages
+              : Colors.white; // Text color for non-user messages
+
           return Container(
             margin: EdgeInsets.all(10),
             child: Row(
@@ -35,11 +39,13 @@ class _MessagesScreenState extends State<MessagesScreen> {
                               widget.messages[index]['isUserMessage'] ? 20 : 0),
                         ),
                         color: widget.messages[index]['isUserMessage']
-                            ? Colors.grey.shade800
-                            : Colors.grey.shade900.withOpacity(0.8)),
+                            ? Colors.grey.shade900.withOpacity(0.8)
+                            : Colors.grey.shade800),
                     constraints: BoxConstraints(maxWidth: w * 2 / 3),
-                    child:
-                        Text(widget.messages[index]['message'].text.text[0])),
+                    child: Text(
+                      widget.messages[index]['message'].text.text[0],
+                      style: TextStyle(color: textColor),
+                    )),
               ],
             ),
           );

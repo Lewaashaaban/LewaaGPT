@@ -21,11 +21,11 @@ class WelcomeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Image(
-                image: AssetImage(tWelcomeScreenImage),
+                image: AssetImage(tbot),
                 height: height * 0.6,
                 fit: BoxFit.contain,
-                // color: Colors.white,
-                colorBlendMode: BlendMode.colorBurn),
+                color: Colors.yellow[500],
+                colorBlendMode: BlendMode.overlay),
             Column(
               children: [
                 Text(

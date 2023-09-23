@@ -51,81 +51,8 @@ class _UserInfoState extends State<UserInfo> {
                 ),
             ],
           ),
-        ),
+        ), 
       ),
     );
   }
 }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('User Information'),
-//         centerTitle: true,
-//       ),
-//       body: Center(
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: [
-//             ElevatedButton(
-//               onPressed: getUserDataForCurrentUser,
-//               child: Text('Fetch User Data'),
-//             ),
-//             if (errorMessage != null)
-//               Text(
-//                 errorMessage!,
-//                 style: TextStyle(color: Colors.red),
-//               ),
-//             if (userData != null)
-//               ListTile(
-//                 title: Text('First Name: ${userData!['FullName']}'),
-//                 subtitle: Column(
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   children: [
-//                     Text('Phone: ${userData!['Phone']}'),
-//                     Text('Email: ${userData!['Email']}'),
-//                     Text('Password: ${userData!['Password']}'),
-//                   ],
-//                 ),
-//               ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('User Information'),
-//         centerTitle: true,
-//       ),
-//       body: Center(
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: [
-//             if (errorMessage != null)
-//               Text(
-//                 errorMessage!,
-//                 style: TextStyle(color: Colors.red),
-//               ),
-//             if (userData != null)
-//               ListTile(
-//                 title: Text('First Name: ${userData!['FullName']}'),
-//                 subtitle: Column(
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   children: [
-//                     Text('Phone: ${userData!['Phone']}'),
-//                     Text('Email: ${userData!['Email']}'),
-//                     Text('Password: ${userData!['Password']}'),
-//                   ],
-//                 ),
-//               ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }

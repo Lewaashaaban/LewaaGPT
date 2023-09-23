@@ -6,13 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:my/src/Backend/contollers/getUserData.dart';
+import 'package:my/src/Pages/profile/Payment.dart';
 import 'package:my/src/Pages/profile/update_profile_screen.dart';
 import 'package:my/src/Pages/profile/widgets/profile_menu.dart';
 import 'package:my/src/constants/colors.dart';
 import 'package:my/src/constants/imageStrings.dart';
 import 'package:my/src/constants/sizes.dart';
-import 'package:image_picker/image_picker.dart';
-import 'dart:io';
+
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -230,7 +230,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ProfileMenuWidget(
                 title: 'Billing Details',
                 icon: LineAwesomeIcons.wallet,
-                onPress: () {},
+                onPress: () {
+                  Get.to(() => PaymentScreen());
+                },
               ),
 
               const Divider(),

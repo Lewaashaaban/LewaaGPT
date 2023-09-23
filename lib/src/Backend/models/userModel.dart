@@ -1,4 +1,4 @@
-// ToDO step 1 create model in firebase
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserModel {
   final String? id;
@@ -7,6 +7,7 @@ class UserModel {
   final String phoneNo;
   final String passsword;
   final String? imageUrl;
+  final DocumentReference? billing;
 
   const UserModel({
     this.id,
@@ -14,16 +15,18 @@ class UserModel {
     required this.fullName,
     required this.passsword,
     required this.phoneNo,
-    this.imageUrl, // Initialize it as null in the constructor
+    this.billing,
+    this.imageUrl,
   });
 
-  toJson() {
+  Map<String, dynamic> toJson() {
     return {
-      "FullName": fullName,
-      "Email": email,
-      "Phone": phoneNo,
-      "Password": passsword,
-      "ImageUrl": imageUrl,
+      'FullName': fullName,
+      'Email': email,
+      'Phone': phoneNo,
+      'Password': passsword,
+      'ImageUrl': imageUrl,
+      'Billing': billing,
     };
   }
 }

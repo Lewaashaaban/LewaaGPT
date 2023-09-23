@@ -1,4 +1,6 @@
 // ignore: file_names
+// ignore_for_file: unused_field
+
 import 'package:dialog_flowtter/dialog_flowtter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -41,11 +43,6 @@ class _ChatScreenState extends State<ChatScreen> {
         elevation: 0,
         centerTitle: true,
         backgroundColor: Colors.transparent,
-        // leading: Icon(
-        //   Icons.menu,
-        //   //For Dark Color
-        //   color: isDark ? tWhiteColor : tDarkColor,
-        // ),
         title:
             Text('LewaaGPT', style: Theme.of(context).textTheme.headlineMedium),
         actions: [
@@ -64,39 +61,35 @@ class _ChatScreenState extends State<ChatScreen> {
           )
         ],
       ),
-      body: Container(
-        child: Column(
-          children: [
-            Expanded(child: MessagesScreen(messages: messages)),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 6, vertical: 3),
-              color: Color(0xFF444654),
-              child: Row(
-                children: [
-                  Expanded(
-                      child: TextField(
-                    controller: _controller,
-                    style: TextStyle(color: Colors.white),
-                    // enabled:
-                    //     !isSendingMessage, // Disable the text field while sending
-                  )),
-                  IconButton(
-                    onPressed: () {
-                      // isSendingMessage
-                      //     ? null
-                      //     : () {
-                      sendMessage(_controller.text);
-                      _controller.clear();
-                      // };
-                    },
-                    icon: Icon(Icons.send_rounded),
-                    color: Color.fromRGBO(142, 142, 160, 1),
-                  ),
-                ],
+      body: SafeArea(
+        child: Container(
+          child: Column(
+            children: [
+              Expanded(child: MessagesScreen(messages: messages)),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 6, vertical: 3),
+                color: Color(0xFF444654),
+                child: Row(
+                  children: [
+                    Expanded(
+                        child: TextField(
+                      controller: _controller,
+                      style: TextStyle(color: Colors.white),
+                    )),
+                    IconButton(
+                      onPressed: () {
+                        sendMessage(_controller.text);
+                        _controller.clear();
+                      },
+                      icon: Icon(Icons.send_rounded),
+                      color: Color.fromRGBO(142, 142, 160, 1),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            if (isSendingMessage) CircularProgressIndicator(),
-          ],
+              if (isSendingMessage) CircularProgressIndicator(),
+            ],
+          ),
         ),
       ),
     );

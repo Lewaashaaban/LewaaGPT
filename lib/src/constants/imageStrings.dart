@@ -14,3 +14,6 @@ const String tUSerIamge = 'assets/images/homePage/user.png';
 
 // my picture
 const String tLewaaImage = 'assets/images/accountPage/lewaa.jpg';
+
+// bots
+const String tbot = "assets/images/homePage/bot10.jpeg";

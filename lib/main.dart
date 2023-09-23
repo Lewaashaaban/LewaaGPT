@@ -1,11 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:my/firebase_options.dart';
 import 'package:my/src/Backend/authentication/contollers/otp_controller.dart';
 import 'package:my/src/Pages/LoginPage.dart';
 import 'package:my/src/Pages/SignupPage.dart';
-import 'package:my/src/Pages/chat/chatScreen.dart';
+import 'package:my/src/Pages/chat/chatscreen2.dart';
 import 'package:my/src/Pages/profile/profile_screen.dart';
 import 'package:my/src/Pages/profile/userInfo/userInfo.dart';
 import 'package:my/src/repository/auth_repsitory/auth_repository.dart';
@@ -22,6 +23,10 @@ void main() {
     Get.put(AuthenticationRepository());
     Get.put(OTPController()); // Register the OTPController instance
   });
+  WidgetsFlutterBinding.ensureInitialized();
+  Stripe.publishableKey =
+      "pk_test_51NtUp4BcIz1PNOlVG6m1SxWnXyf5nUwmLP18nTz2abEYUkj8Ixe0lJCPcYKNGrByl2uZwEOENBE44vbbo4PMjiAh000RDCWzNO";
+
   runApp(MyApp());
 }
 
@@ -40,10 +45,8 @@ class MyApp extends StatelessWidget {
         '/login': (context) => LoginPage(),
         '/forgotPassword/mail': (context) => ForgetPasswordMailScreen(),
         '/forgotPassword/phone': (context) => ForgotPasswordPhoneScreen(),
-        // '/forgotPassword/otp': (context) => OTPscreen(),
-        '/chat': (context) => ChatScreen(),
+        '/chat': (context) => ChatPage(),
         '/signup': (context) => SignupPage(),
-        // '/settings': (context) => SettingsPage(),
         '/profile': (context) => ProfileScreen(),
         '/profile/info': (context) => UserInfo(),
       },
