@@ -17,14 +17,13 @@ import 'src/Pages/forgot_password/fp_mail.dart';
 import 'src/Pages/forgot_password/fp_phone.dart';
 import 'src/Pages/welcomePage.dart';
 
-void main() {
+void main()  {
   WidgetsFlutterBinding();
   Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform)
       .then((value) {
     Get.put(AuthenticationRepository());
     Get.put(OTPController()); // Register the OTPController instance
   });
-  // await dotenv.load();
   runApp(MyApp());
 }
 
