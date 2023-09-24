@@ -45,7 +45,7 @@ class SignupController extends GetxController {
 
       // Only navigate to /chat if signup was successful
       if (signupSuccess.value) {
-        Navigator.pushNamed(context, '/chat');
+        Get.offAllNamed('/chat');
       }
     } on FirebaseAuthException catch (e) {
       showDialog(

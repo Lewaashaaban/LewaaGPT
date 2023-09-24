@@ -11,12 +11,11 @@ class LoginController extends GetxController {
   final email = TextEditingController();
   final password = TextEditingController();
 
-  
   Future<void> login(BuildContext context) async {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: email.text.trim(), password: password.text.trim());
-      Navigator.pushNamed(context, '/chat');
+      Get.offAllNamed('/chat');
     } on FirebaseAuthException catch (e) {
       showDialog(
           context: context,
@@ -27,6 +26,4 @@ class LoginController extends GetxController {
           });
     }
   }
-
-
 }
