@@ -1,6 +1,7 @@
+// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:my/firebase_options.dart';
 import 'package:my/src/Backend/authentication/contollers/otp_controller.dart';
@@ -23,9 +24,6 @@ void main() {
     Get.put(AuthenticationRepository());
     Get.put(OTPController()); // Register the OTPController instance
   });
-  WidgetsFlutterBinding.ensureInitialized();
-  Stripe.publishableKey =
-      "pk_test_51NtUp4BcIz1PNOlVG6m1SxWnXyf5nUwmLP18nTz2abEYUkj8Ixe0lJCPcYKNGrByl2uZwEOENBE44vbbo4PMjiAh000RDCWzNO";
 
   runApp(MyApp());
 }

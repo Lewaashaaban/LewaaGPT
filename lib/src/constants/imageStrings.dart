@@ -1,5 +1,7 @@
 // Welcome Screen Images
 
+// ignore_for_file: file_names
+
 const String tWelcomeScreenImage = "assets/images/welcomePage/bothead.png";
 const String tBot = "assets/images/welcomePage/bot.png";
 

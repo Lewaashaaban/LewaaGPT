@@ -1,5 +1,5 @@
 // ignore: file_names
-// ignore_for_file: unused_field
+// ignore_for_file: unused_field, file_names, duplicate_ignore, annotate_overrides, avoid_unnecessary_containers, prefer_const_constructors, avoid_print
 
 import 'package:dialog_flowtter/dialog_flowtter.dart';
 import 'package:flutter/material.dart';

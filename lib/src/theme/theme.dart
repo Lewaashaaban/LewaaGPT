@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:my/src/constants/colors.dart';
 import 'package:my/src/theme/widget_themes/elevated_button_theme.dart';

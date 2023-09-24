@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 enum ChatMessageType { user, bot }
 
 class ChatMessage {

@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_final_fields, library_private_types_in_public_api, unused_field
+// ignore_for_file: prefer_const_constructors, prefer_final_fields, library_private_types_in_public_api, unused_field, use_key_in_widget_constructors, no_leading_underscores_for_local_identifiers, sort_child_properties_last, file_names, sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';

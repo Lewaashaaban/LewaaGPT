@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 class LoginWithEmailAndPasswordFailure {
   final String message;
 

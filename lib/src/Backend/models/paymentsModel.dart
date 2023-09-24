@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 class PaymentModel {
   final String cardNumber;
   final String expiryDate;
