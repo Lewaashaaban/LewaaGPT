@@ -112,7 +112,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           icon: const Icon(LineAwesomeIcons.angle_left),
         ),
         title: Text(
-          'Profile',
+          'Settings',
           style: Theme.of(context).textTheme.titleLarge,
         ),
         centerTitle: true,

@@ -25,3 +25,4 @@ const String tmylogo1 = "assets/images/welcomePage/mylogo1.jpg";
 const String tmylogo2 = "assets/images/welcomePage/mylogo2.jpg";
 const String tmylogo3 = "assets/images/welcomePage/Picture4.png";
 const String tmylogo4 = "assets/images/welcomePage/mylogo5.png";
+const String tvisaLogo = "assets/images/welcomePage/visa-logo.jpeg";

@@ -45,13 +45,13 @@ dev_dependencies:
 flutter_native_splash:
   color: "#f7f6f1"
   color_dark: "#272727"
-  image: assets/images/welcomePage/bot.png
-  image_dark: assets/images/welcomePage/bot.png
+  image: assets/images/welcomePage/mylogo3.jpg
+  image_dark: assets/images/welcomePage/mylogo3.jpg
 
   android_12:
-    image: assets/images/welcomePage/bot.png
+    image: assets/images/welcomePage/mylogo3.jpg
     icon_background_color: "#f7f6f1"
-    image_dark: assets/images/welcomePage/bot.png
+    image_dark: assets/images/welcomePage/mylogo3.jpg
     icon_background_color_dark: "#272727"
 
   web: false
@@ -67,3 +67,4 @@ flutter:
     - assets/images/accountPage/
     - assets/dialog_flow_auth.json
     - assets/images/welcomePage/mylogo2.jpg
+    
