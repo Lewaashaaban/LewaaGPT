@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 Future<String> generateResponse(String prompt) async {
-  String? apiKey = "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";
+  String? apiKey = "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";
 
   var url = Uri.https("api.openai.com", "/v1/completions");
   final response = await http.post(

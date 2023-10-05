@@ -1,5 +1,7 @@
 // ignore_for_file: unused_local_variable
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my/src/Pages/chat/messages2.dart';
@@ -18,10 +20,35 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
+ 
+
   final _textController = TextEditingController();
   final _scrollController = ScrollController();
   final List<ChatMessage> _messages = [];
   late bool isLoading;
+
+  // fxn to save chat messages
+  Future<void> saveChatMessage(
+      String message, ChatMessageType chatMessageType) async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final uid = user.uid;
+
+      final chatData = {
+        'message': message,
+        'timestamp': FieldValue
+            .serverTimestamp(), // Use server timestamp for accurate sorting
+        'sender': chatMessageType == ChatMessageType.user ? 'user' : 'bot',
+      };
+
+      // Save the chat message to Firebase Firestore
+      await FirebaseFirestore.instance
+          .collection('chatHistory')
+          .doc(uid)
+          .collection('messages')
+          .add(chatData);
+    }
+  }
 
   @override
   void initState() {
@@ -102,6 +129,8 @@ class _ChatPageState extends State<ChatPage> {
           onPressed: () async {
             setState(
               () {
+                final message = _textController.text;
+                final sender = "user"; // Identify the sender as the user
                 _messages.add(
                   ChatMessage(
                     text: _textController.text,
@@ -115,18 +144,28 @@ class _ChatPageState extends State<ChatPage> {
             _textController.clear();
             Future.delayed(const Duration(milliseconds: 50))
                 .then((_) => _scrollToLastMessage());
-            generateResponse(input).then((value) {
+
+            // Save the user's message to Firestore
+            await saveChatMessage(input, ChatMessageType.user);
+            generateResponse(input).then((value) async {
               setState(() {
                 isLoading = false;
+
+                // // Add the AI's message
                 _messages.add(
                   ChatMessage(
-                    text: value,
+                    text: value, // AI's response
                     chatMessageType: ChatMessageType.bot,
                   ),
                 );
+
+                _scrollToLastMessage();
               });
-              _scrollToLastMessage(); // Scroll to the last message (AI's response)
+
+              await saveChatMessage(value, ChatMessageType.bot);
+              _scrollToLastMessage();
             });
+
             _textController.clear();
             Future.delayed(const Duration(milliseconds: 50))
                 .then((_) => _scrollToLastMessage());

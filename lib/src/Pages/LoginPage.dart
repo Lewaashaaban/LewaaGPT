@@ -116,63 +116,66 @@ class _LoginPageState extends State<LoginPage> {
                               borderRadius: BorderRadius.circular(8.0)),
                           builder: (context) => Container(
                                 padding: EdgeInsets.all(tDefaultSize),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Make Selection!',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .displaySmall
-                                          ?.copyWith(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 24,
-                                          ),
-                                    ),
-                                    SizedBox(
-                                      height: 20.0,
-                                    ),
-                                    Text(
-                                        'Select one of the options given below to reset your password',
+                                child: ListView(children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Make Selection!',
                                         style: Theme.of(context)
                                             .textTheme
-                                            .titleLarge),
-                                    const SizedBox(
-                                      height: 30.0,
-                                    ),
-                                    ForgetPasswordBtnWidget(
-                                      btnIcon: Icons.mail_outline_rounded,
-                                      title: 'E-mail',
-                                      subtitle: 'Reset via E-mail address',
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                ForgetPasswordMailScreen(),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                    SizedBox(
-                                      height: 20.0,
-                                    ),
-                                    ForgetPasswordBtnWidget(
-                                      btnIcon: Icons.mobile_friendly_rounded,
-                                      title: 'Phone No',
-                                      subtitle: 'Reset via Phone Number',
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                ForgotPasswordPhoneScreen(),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ],
-                                ),
+                                            .displaySmall
+                                            ?.copyWith(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 24,
+                                            ),
+                                      ),
+                                      SizedBox(
+                                        height: 20.0,
+                                      ),
+                                      Text(
+                                          'Select one of the options given below to reset your password',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleLarge),
+                                      const SizedBox(
+                                        height: 30.0,
+                                      ),
+                                      ForgetPasswordBtnWidget(
+                                        btnIcon: Icons.mail_outline_rounded,
+                                        title: 'E-mail',
+                                        subtitle: 'Reset via E-mail address',
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ForgetPasswordMailScreen(),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                      SizedBox(
+                                        height: 20.0,
+                                      ),
+                                      ForgetPasswordBtnWidget(
+                                        btnIcon: Icons.mobile_friendly_rounded,
+                                        title: 'Phone No',
+                                        subtitle: 'Reset via Phone Number',
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ForgotPasswordPhoneScreen(),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ]),
                               ));
                     },
                     child: const Text(

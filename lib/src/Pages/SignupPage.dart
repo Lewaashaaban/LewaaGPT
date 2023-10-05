@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, sort_child_properties_last, no_leading_underscores_for_local_identifiers, file_names, sized_box_for_whitespace
 
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -79,6 +80,15 @@ class _SignupPageState extends State<SignupPage> {
                             Icons.email,
                           ),
                           border: OutlineInputBorder()),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Email is required';
+                        }
+                        if (!EmailValidator.validate(value)) {
+                          return 'Invalid email format';
+                        }
+                        return null;
+                      },
                     ),
                     SizedBox(height: 16.0),
                     TextFormField(

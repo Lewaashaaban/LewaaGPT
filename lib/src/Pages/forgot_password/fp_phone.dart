@@ -18,27 +18,47 @@ class ForgotPasswordPhoneScreen extends StatefulWidget {
 
 class _ForgotPasswordPhoneScreenState extends State<ForgotPasswordPhoneScreen> {
   final _phoneController = TextEditingController();
+
   Future passwordReset() async {
     try {
-      await FirebaseAuth.instance
-          .sendPasswordResetEmail(email: _phoneController.text.trim());
-      showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              content:
-                  Text('Password resst link sent, please check your email'),
-            );
-          });
+      // Send a verification code to the phone number
+      await FirebaseAuth.instance.verifyPhoneNumber(
+        phoneNumber: _phoneController.text.trim(),
+        verificationCompleted: (PhoneAuthCredential credential) {},
+        verificationFailed: (FirebaseAuthException e) {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                content: Text('Failed to send verification code: ${e.message}'),
+              );
+            },
+          );
+        },
+        codeSent: (String verificationId, int? resendToken) {
+        },
+        codeAutoRetrievalTimeout: (String verificationId) {
+          // The verification code retrieval timed out.
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                content: Text('Verification code retrieval timed out.'),
+              );
+            },
+          );
+        },
+      );
     } on FirebaseAuthException catch (e) {
       print(e);
       showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              content: Text(e.message.toString()),
-            );
-          });
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: Text(e.message.toString()),
+          );
+        },
+      );
     }
   }
 
@@ -98,7 +118,7 @@ class _ForgotPasswordPhoneScreenState extends State<ForgotPasswordPhoneScreen> {
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () {
-                          Navigator.pushNamed(context, '/forgotPassword/otp');
+                          passwordReset();
                         },
                         child: const Text('Next'),
                         style: ElevatedButton.styleFrom(
