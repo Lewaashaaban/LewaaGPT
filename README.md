@@ -1,6 +1,6 @@
-# my
+# LewaaGPT
 
-A new Flutter project.
+chatbot AI 
 
 ## Getting Started
 
